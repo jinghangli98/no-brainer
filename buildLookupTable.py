@@ -10,13 +10,14 @@ import matplotlib.pyplot as plt
 import glob
 import json
 
-images = glob.glob('./photos/*')
+images = glob.glob('./photos/*/*')
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20) # initializing mtcnn for face detection
 resnet = InceptionResnetV1(pretrained='vggface2').eval() # initializing resnet for face img to embeding conversion
 embedding_list = []
 IDs = []
 table = {}
 for image in images:
+    relationship = image.split('/')[-2]
     name = image.split('/')[-1].split('.')[0]
     IDs.append(name)
     frame = cv2.imread(image)
@@ -24,7 +25,8 @@ for image in images:
     emb = resnet(face.unsqueeze(0)) # passing cropped face into resnet model to get embedding matrix
     emb = np.array(emb.detach())
     embedding_list.append(emb) # resulten embedding matrix is stored in a list
-    table[name] = emb
+    table[name] = [emb, relationship]
     
 # Specify the file path where you want to save the dictionary
 np.savez('./lookuptable.npz', **table)
+

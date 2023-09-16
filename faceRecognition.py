@@ -11,8 +11,10 @@ import time
 
 cap = cv2.VideoCapture(0)
 embedding_list = []
-lookuptable = np.load('lookuptable.npz')
-lookuptable = {key: np.float16(lookuptable[key]) for key in lookuptable.files}
+lookuptable = np.load('lookuptable.npz', allow_pickle=True)
+table={}
+for idx, item in enumerate(lookuptable):
+    table[item] = lookuptable[item]
 
 def cosine_similarity(v1, v2):
     dot_product = np.dot(v1, v2.T)
@@ -46,11 +48,13 @@ while True:
         emb = resnet(face.unsqueeze(0)) # passing cropped face into resnet model to get embedding matrix
         emb = np.float16(emb.detach())
         
-        for idx, item in enumerate(lookuptable):
-            metrics = np.squeeze(cosine_similarity(emb, lookuptable[item]))
+        for idx, item in enumerate(table):
+            metrics = np.squeeze(cosine_similarity(emb, table[item][0]))
+            relationship = table[item][1]
             print(f'{item}: {metrics}')
             if metrics > 0.75:
                 cv2.putText(frame, f"{item}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                cv2.putText(frame, f"{relationship}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 
     except:
         print('No Face Detected')
