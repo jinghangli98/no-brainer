@@ -29,4 +29,4 @@ for image in images:
     
 # Specify the file path where you want to save the dictionary
 np.savez('./lookuptable.npz', **table)
-
+table.keys()

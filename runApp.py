@@ -8,10 +8,14 @@ import cv2
 import numpy as np
 import pdb
 import time
+from hsemotion.facial_emotions import HSEmotionRecognizer
+import numpy as np
 
 cap = cv2.VideoCapture(0)
 embedding_list = []
-import numpy as np
+
+model_name='enet_b0_8_best_vgaf'
+fer=HSEmotionRecognizer(model_name=model_name,device='cpu') # device is cpu or gpu
 
 # Load the NPZ file with allow_pickle=True
 lookuptable = np.load('lookuptable.npz', allow_pickle=True)
@@ -57,7 +61,8 @@ while True:
             cv2.rectangle(frame, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
         
             roi = frame[int(box[1]):int(box[3]), int(box[0]):int(box[2])]
-    
+            
+            # emotion, scores = fer.predict_emotions(roi)
             face, prob = mtcnn(roi, return_prob=True) 
             emb = resnet(face) # passing cropped face into resnet model to get embedding matrix
             emb = np.float16(emb.detach())
@@ -65,10 +70,10 @@ while True:
             for idx, item in enumerate(lookuptable):
                 metrics = np.squeeze(cosine_similarity(emb, lookuptable[item][0]))
                 relationship = lookuptable[item][1]
-                print(f'{item}: {metrics}')
                 if metrics > 0.75:
-                    cv2.putText(frame, f"{item}", (int(box[0]), int(box[1])-50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    cv2.putText(frame, f"{item}", (int(box[0])+100, int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     cv2.putText(frame, f"{relationship}", (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    # cv2.putText(frame, f"{emotion}", (int(box[0]), int(box[1]+100)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     except:
         pass
