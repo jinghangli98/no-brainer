@@ -14,7 +14,7 @@ import numpy as np
 cap = cv2.VideoCapture(0)
 embedding_list = []
 
-model_name='enet_b0_8_best_vgaf'
+model_name='enet_b0_8_best_afew'
 fer=HSEmotionRecognizer(model_name=model_name,device='cpu') # device is cpu or gpu
 
 # Load the NPZ file with allow_pickle=True
@@ -62,7 +62,7 @@ while True:
         
             roi = frame[int(box[1]):int(box[3]), int(box[0]):int(box[2])]
             
-            # emotion, scores = fer.predict_emotions(roi)
+            emotion, scores = fer.predict_emotions(roi)
             face, prob = mtcnn(roi, return_prob=True) 
             emb = resnet(face) # passing cropped face into resnet model to get embedding matrix
             emb = np.float16(emb.detach())
@@ -73,7 +73,7 @@ while True:
                 if metrics > 0.75:
                     cv2.putText(frame, f"{item}", (int(box[0])+100, int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     cv2.putText(frame, f"{relationship}", (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    # cv2.putText(frame, f"{emotion}", (int(box[0]), int(box[1]+100)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    cv2.putText(frame, f"{emotion}", (int(box[0]), int(box[1]+100)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     except:
         pass
