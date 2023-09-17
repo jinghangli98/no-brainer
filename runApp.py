@@ -10,6 +10,7 @@ import pdb
 import time
 # from hsemotion.facial_emotions import HSEmotionRecognizer
 import numpy as np
+import matplotlib.pyplot as plt
 
 cap = cv2.VideoCapture(0)
 embedding_list = []
@@ -34,6 +35,8 @@ def cosine_similarity(v1, v2):
 
 device = torch.device('cpu')
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20,keep_all=True, device=device) # initializing mtcnn for face detection
+# mtcnn = MTCNN(keep_all=True, device=device) # initializing mtcnn for face detection
+
 resnet = InceptionResnetV1(pretrained='vggface2').eval()
 
 start_time = time.time()
@@ -61,6 +64,9 @@ while True:
             cv2.rectangle(frame, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
         
             roi = frame[int(box[1]):int(box[3]), int(box[0]):int(box[2])]
+            new_width = 240
+            new_height = new_width
+            roi = cv2.resize(roi, (new_width, new_height))
             
             # emotion, scores = fer.predict_emotions(roi)
             face, prob = mtcnn(roi, return_prob=True) 
@@ -69,13 +75,16 @@ while True:
 
             for idx, item in enumerate(lookuptable):
                 metrics = np.squeeze(cosine_similarity(emb, lookuptable[item][0]))
+                print(f'{item}: {metrics}')
                 relationship = lookuptable[item][1]
-                if metrics > 0.75:
+                if metrics > 0.65:
                     cv2.putText(frame, f"{item}", (int(box[0])+100, int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     cv2.putText(frame, f"{relationship}", (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                     # cv2.putText(frame, f"{emotion}", (int(box[0]), int(box[1]+100)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
-    except:
+    except Exception as error:
+        # cv2.putText(frame, f"{item}", (int(box[0])+100, int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        # cv2.putText(frame, f"{relationship}", (int(box[0]), int(box[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         pass
 
     cv2.imshow("Webcam Feed", frame)
