@@ -11,9 +11,8 @@ import time
 from hsemotion.facial_emotions import HSEmotionRecognizer
 import numpy as np
 import matplotlib.pyplot as plt
-# from captureScreenShot import *
+from captureScreenShot import *
 from buildLookupTable import *
-import pyttsx3
 
 font_scale = 1
 font_thickness = 2
@@ -86,11 +85,11 @@ while True:
                     emotion, scores = fer.predict_emotions(roi)
                     cv2.putText(frame, f"{emotion}", (int(box[0]), int(box[1]+100)), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 255, 0), 2)
 
-                    if boxes.shape[0] == 1 and f"{item}" != prev:
-                        engine = pyttsx3.init()
-                        engine.say(f"{item}")
-                        engine.runAndWait()
-                        prev = f"{item}"
+                    # if boxes.shape[0] == 1 and f"{item}" != prev:
+                    #     engine = pyttsx3.init()
+                    #     engine.say(f"{item}")
+                    #     engine.runAndWait()
+                    #     prev = f"{item}"
                     
     except Exception as error:
         pass
