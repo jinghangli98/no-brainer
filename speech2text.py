@@ -1,5 +1,4 @@
 import os
-import IPython
 import matplotlib
 import matplotlib.pyplot as plt
 import requests
@@ -64,7 +63,6 @@ try:
 
     while True:
         frame = recorder.read()
-        print(frame)
         # Do something ...
 except KeyboardInterrupt:
     recorder.stop()

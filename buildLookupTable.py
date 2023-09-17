@@ -9,6 +9,7 @@ import pdb
 import matplotlib.pyplot as plt
 import glob
 import json
+# from captureScreenShot import *
 
 images = glob.glob('./photos/*/*')
 mtcnn = MTCNN(image_size=240, margin=0, min_face_size=20) # initializing mtcnn for face detection
@@ -28,5 +29,5 @@ for image in images:
     table[name] = [emb, relationship]
     
 # Specify the file path where you want to save the dictionary
-np.savez('./lookuptable.npz', **table)
-print(table.keys())
+np.savez('./lookuptable.npz', table)
+lookuptable = table
