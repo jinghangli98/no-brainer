@@ -7,3 +7,5 @@ Specifically we incorporated
 2. Face Recognition
 
 3. Facial Expression Analysis
+
+To run the app clone the github repository first then run ```python3 runApp.py```
