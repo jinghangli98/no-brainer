@@ -9,3 +9,5 @@ Specifically we incorporated
 3. Facial Expression Analysis
 
 To run the app clone the github repository first then run ```python3 runApp.py```
+
+[Demonstration](https://youtu.be/oWka1wCR4fw?si=ma0RL1sfTnLU-k4z)
