@@ -10,7 +10,7 @@ An AI-powered face recognition system designed to help Alzheimer's patients reme
 
 ## 🚀 Usage
 ```bash
-git clone https://github.com/GJAnsah/no-brainer.git
+git clone https://github.com/jinghangli98/no-brainer.git 
 cd no-brainer
 python3 runApp.py
 ```
