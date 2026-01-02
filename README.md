@@ -1,13 +1,24 @@
-# no-brainer
-We built an AI based face recognition system that aims to assit Alzheimer's patient remembering famility and friends' names. 
-Specifically we incorporated 
+# 🧠 No-Brainer
 
-1. Face Detection
+An AI-powered face recognition system designed to help Alzheimer's patients remember the names and relationships of family and friends.
 
-2. Face Recognition
+## ✨ Features
 
-3. Facial Expression Analysis
+- **Face Detection** — Identifies faces in real-time webcam footage
+- **Face Recognition** — Matches detected faces to a database of known individuals
+- **Facial Expression Analysis** — Analyzes emotional expressions
 
-To run the app clone the github repository first then run ```python3 runApp.py```
+## 🚀 Usage
+```bash
+git clone https://github.com/GJAnsah/no-brainer.git
+cd no-brainer
+python3 runApp.py
+```
 
-[Demonstration](https://youtu.be/oWka1wCR4fw?si=ma0RL1sfTnLU-k4z)
+## 🎬 Demo
+
+[Watch the demonstration](https://youtu.be/oWka1wCR4fw?si=ma0RL1sfTnLU-k4z)
+
+## 🏆 Awards
+
+Patient Engagement Project Award — The Pitt Challenge 2023
